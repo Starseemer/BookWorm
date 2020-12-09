@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <title>BookWorm</title>
+  </head>
+  <body>
+    <style>
+
+      .book-style {
+        list-style-position:inside;
+        border: 1px solid rgba(114, 114, 114, 0.712);
+        width: 98%;
+        margin-left:0px;
+        padding-left:0px;
+        display: inline-block;
+        background-color:rgb(71, 121, 165);
+      
+      }
+
+      .book-style img
+      {
+      float:left;
+      }
+
+      .book-style div{
+      text-align: left; 
+      display:inline-block;
+      padding: 15px;
+      }
+
+      .book-style h3, p{
+          color: white;
+      }
+
+      .vertical-center{
+        padding-left: 40px;
+      }
+
+      ul.topnav {
+		  list-style-type: none;
+		  margin: 0;
+		  padding: 0;
+		  overflow: hidden;
+		  background-color: #333;
+      }
+      ul.topnav li {float: left;}
+      ul.topnav li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+      }
+      
+      ul.topnav li a:hover:not(.activeMain) {background-color: #111;}
+      
+      ul.topnav li a.activeMain {background-color: rgb(71, 121, 165);}
+      
+      ul.topnav li.right {float: right;}
+      
+      @media screen and (max-width: 600px) {
+        ul.topnav li.right, 
+        ul.topnav li {float: none;}
+      }
+
+
+    </style>
+
+    <script>
+      function toSearch(){
+        window.location.href= window.document.location.protocol+"//"+window.document.location.host+"/mybookworm";
+      }
+      function toBookmarks(){
+        window.location.href= window.document.location.protocol+"//"+window.document.location.host+"/mybookworm/bookmarks";
+      }
+    </script>
+
+    <ul class="topnav">
+      <li><a onclick="toSearch()"> Search </a></li>
+      <li><a onclick="toBookmarks()">Bookmarks</a></li>
+    </ul>
+
+
+    <section class = "book-style">
+      <div>
+      <h3>{{ book.title }}</h3>
+      <p>{{ book.subtitle }}</p>
+      <p>{{ book.price }}</p>
+      <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="title" value="{{book.title}}"/>
+        <input type="hidden" name="subtitle" value="{{book.subtitle}}"/>
+        <input type="hidden" name="price" value="{{book.price}}"/>
+        <input type="hidden" name="img_url" value="{{book.url}}"/>
+        <input type="hidden" name="book_id" value="{{book.id}}"/>
+        {% if isAdded %}
+          <button type="submit">Remove from book marks</button>
+          <input type="hidden" name="isAdd" value="remove"/>
+        {% else %}
+          <button type="submit">Add to book marks</button>
+          <input type="hidden" name="isAdd" value="add"/>
+        {% endif %}
+      </form>
+    </div>
+    <img src={{book.url}}>
+    </section>
+    
+    
+    
+  </body>
+</html>
