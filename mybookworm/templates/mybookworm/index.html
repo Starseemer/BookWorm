@@ -5,34 +5,36 @@
     <title>BookWorm</title>
   </head>
   <body>
+
     <style>
-      .vertical-center {
-        margin: 0;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        padding: 2px;
-      }
-      
+      /* Search section styling start */
+		.vertical-center {
+			margin: 0;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			-ms-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+			padding: 2px;
+		}
+		/* ---------------------------- */
       </style>
     
-    
-      <div class="vertical-center">
-        <h2 style="color: rgba(72, 136, 192, 0.815);">Welcome to BookWorm</h2>
-        <input style="width:400px;height: 50px;font-size:14pt;" id="search" type="text" name="textfield">
-        
-        <button style="height: 50px;" id="submit" type="submit" onclick="buttonClick()">SEARCH</button>
-      </div>
-    
+		<!-- Search section start -->
+		<div class="vertical-center">
+			<h2 style="color: rgba(72, 136, 192, 0.815);">Welcome to BookWorm</h2>
+			<input style="width:400px;height: 50px;font-size:14pt;" onKeyDown="if(event.keyCode==13) buttonClick();" id="search" type="text" name="textfield">
+			<button style="height: 50px;" id="submit" type="submit" onclick="buttonClick()">SEARCH</button>
+		</div>
+		<!------------------------------>
 
-    <script>
-      function buttonClick(){
-        var search = document.getElementById('search').value;
-        window.location.href= window.document.location.href+"search/"+search+"/1"
-      }
-    </script>
+		<script>
+			//Search onClick and onEnter action handling.
+			function buttonClick(){
+				var search = document.getElementById('search').value;
+				window.location.href= window.document.location.href+"search/"+search+"/1"
+			}
+		</script>
     
   </body>
 </html>

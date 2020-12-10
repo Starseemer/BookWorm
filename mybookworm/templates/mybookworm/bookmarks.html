@@ -6,77 +6,86 @@
   </head>
   <body>
     <style>
-      ul.topnav {
-		  list-style-type: none;
-		  margin: 0;
-		  padding: 0;
-		  overflow: hidden;
-		  background-color: #333;
+		/* Navbar styling start */
+		ul.topnav {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
 		}
-		ul.topnav li {float: left;}
-		ul.topnav li a {
-		  display: block;
-		  color: white;
-		  text-align: center;
-		  padding: 14px 16px;
-		  text-decoration: none;
+			ul.topnav li {float: left;}
+			ul.topnav li a {
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
 		}
-		
+			
 		ul.topnav li a:hover:not(.activeMain) {background-color: #111;}
-		
+			
 		ul.topnav li a.activeMain {background-color: rgb(71, 121, 165);}
-		
+			
 		ul.topnav li.right {float: right;}
-		
+			
 		@media screen and (max-width: 600px) {
-		  ul.topnav li.right, 
-		  ul.topnav li {float: none;}
+			ul.topnav li.right, 
+			ul.topnav li {float: none;}
 		}
 
-    ul.bookmark-item {
-		  list-style-type: none;
-		  margin: 0;
-		  padding: 0;
-		  overflow: hidden;
-		  background-color: rgba(71, 121, 165, 0.541);
+		/* ---------------------------------- */
+
+		/* Bookmark item list styling start */
+		ul.bookmark-item {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: rgba(71, 121, 165, 0.541);
 		}
-		
+			
 		ul.bookmark-item li a {
-		  display: block;
-		  color: white;
-		  text-align: left;
-		  padding: 10px;
-		  text-decoration: none;
+			display: block;
+			color: white;
+			text-align: left;
+			padding: 10px;
+			text-decoration: none;
 		}
-		
+			
 		ul.bookmark-item li a:hover {background-color:rgb(71, 121, 165);}
-		
-		
+			
+			
 		ul.bookmark-item li.right {float: right;}
-		
+			
 		@media screen and (max-width: 600px) {
-		  ul.bookmark-item li.right, 
-		  ul.bookmark-item li {float: none;}
+			ul.bookmark-item li.right, 
+			ul.bookmark-item li {float: none;}
 		}
-		
+		/* ----------------------------- */
+
     </style>
 
     <script>
-      function toSearch(){
-        window.location.href= window.document.location.protocol+"//"+window.document.location.host+"/mybookworm";
-      }
-    </script>
+		//onclick action for going back to search
+		function toSearch(){
+			window.location.href= window.document.location.protocol+"//"+window.document.location.host+"/mybookworm";
+		}
+	</script>
+	
+	<!-- Navbar HTML start -->
     <ul class="topnav">
-      <li><a onclick="toSearch()"> Search </a></li>
-      <li><a class="activeMain" href="">Bookmarks</a></li>
+		<li><a onclick="toSearch()"> Search </a></li>
+		<li><a class="activeMain" href="">Bookmarks</a></li>
     </ul>
-    
+	<!--------------------------------->
+	
     {% if bookmarks %}
-      <ul class="bookmark-item">
-      {% for bookmark in bookmarks %}
-          <li><a href="/mybookworm/bookmarks/{{bookmark.id}}">{{ bookmark.title }}</a></li>
-      {% endfor %}
-      </ul>
+      	<ul class="bookmark-item">
+      	{% for bookmark in bookmarks %}
+          	<li><a href="/mybookworm/bookmarks/{{bookmark.id}}">{{ bookmark.title }}</a></li>
+      	{% endfor %}
+      	</ul>
     {% else %}
         <p>There are no bookmarked books</p>
     {% endif %}

@@ -5,110 +5,129 @@
     <title>BookWorm</title>
   </head>
   <body>
-
     <style>
-
-      .list {
-        list-style-position:inside;
-        border: 1px solid rgba(114, 114, 114, 0.712);
-        width: 90%;
-        margin-left:0px;
-        padding-left:0px;
-        display: inline-block;
-      
-      }
-
-      .list img
-      {
-      float:left;
-      }
-
-      .list div{
-      text-align: left; 
-      display:inline-block;
-      padding: 15px;
-      }
-
-      .vertical-center{
-        padding: 10px;
-      }
-
-      ul.topnav {
-		  list-style-type: none;
-		  margin: 0;
-		  padding: 0;
-		  overflow: hidden;
-		  background-color: #333;
+      /* Item styling start */
+		.list {
+			list-style-position:inside;
+			border: 1px solid rgba(114, 114, 114, 0.712);
+			width: 90%;
+			margin-left:0px;
+			padding-left:0px;
+			display: inline-block;
 		}
+
+		.list img{
+			float:left;
+		}
+
+		.list div{
+			text-align: left; 
+			display:inline-block;
+			padding: 15px;
+			max-width: 45%;
+		}
+
+		.list p{
+			max-width: 700px;
+			overflow-wrap: anywhere;
+		}
+		/* --------------------------------------- */
+
+		/* Navbar styling start */
+
+		.vertical-center{
+			padding: 10px;
+		}
+
+		ul.topnav {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			background-color: #333;
+		}
+
 		ul.topnav li {float: left;}
+
 		ul.topnav li a {
-		  display: block;
-		  color: white;
-		  text-align: center;
-		  padding: 14px 16px;
-		  text-decoration: none;
+			display: block;
+			color: white;
+			text-align: center;
+			padding: 14px 16px;
+			text-decoration: none;
 		}
-		
+			
 		ul.topnav li a:hover {background-color: rgb(71, 121, 165);}
-		
+			
 		ul.topnav li.right {float: right;}
-		
+			
 		@media screen and (max-width: 600px) {
-		  ul.topnav li.right, 
-		  ul.topnav li {float: none;}
+			ul.topnav li.right, 
+			ul.topnav li {float: none;}
 		}
+    /* --------------------------------------- */
     </style>
-      <ul class="topnav">
-        <li>
-          <div class="vertical-center">
-            <header style="font-size: large;color: white;">BookWorm</header>
-            <input style="width:300px;height: 30px;font-size:10pt;" id="search" type="text" name="textfield">
-            
-            <button id="submit" type="submit" onclick="buttonClick()">SEARCH</button>
-          </div>
-        </li>
-        <li><a href="/mybookworm/bookmarks">Bookmarks</a></li>
+
+    <!-- Navbar HTML start  -->
+    <ul class="topnav">
+		<li>
+			<div class="vertical-center">
+			<header style="font-size: large;color: white;">BookWorm</header>
+			<input style="width:300px;height: 30px;font-size:10pt;" onKeyDown="if(event.keyCode==13) buttonClick();" id="search" type="text" name="textfield">
+			<button id="submit" type="submit" onclick="buttonClick()">SEARCH</button>
+			</div>
+		</li>
+		<li><a href="/mybookworm/bookmarks">Bookmarks</a></li>
     </ul>
+    <!------------------------------------->
+
+
     <script>
-      function buttonClick(){
-        var search = document.getElementById('search').value;
-        console.log(window.document.location.host);
-        window.location.href= window.document.location.protocol+"//"+window.document.location.host+"/mybookworm/search/"+search+"/1"
-      }
+      //Search onClick and onEnter action handling.
+		function buttonClick(){
+			var search = document.getElementById('search').value;
+			console.log(window.document.location.host);
+			window.location.href= window.document.location.protocol+"//"+window.document.location.host+"/mybookworm/search/"+search+"/1"
+		}
     </script>
-    {% if books %}
-      <ul>
-      {% for title, subtitle, price, img_url, book_id, isAdded in books %}
-          <li class="list">
-            <div>
-              <h3>{{ title }}</h3>
-              <p>{{ subtitle }}</p>
-              <p>{{ price }}</p>
-              <form method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="title" value="{{title}}"/>
-                <input type="hidden" name="subtitle" value="{{subtitle}}"/>
-                <input type="hidden" name="price" value="{{price}}"/>
-                <input type="hidden" name="img_url" value="{{img_url}}"/>
-                <input type="hidden" name="book_id" value="{{book_id}}"/>
-                {% if isAdded %}
-                  <button type="submit">Remove from book marks</button>
-                  <input type="hidden" name="isAdd" value="remove"/>
-                {% else %}
-                  <button type="submit">Add to book marks</button>
-                  <input type="hidden" name="isAdd" value="add"/>
-                {% endif %}
-              </form>
-            </div>
-            <img src={{img_url}}>
-          </li>
-      {% endfor %}
-      </ul>
+
+    <!-- Accessing and manuplating data with Built-in template tags and filters  -->
+    {% if books %}  <!-- Check if books array is not empty -->
+      	<ul>
+      	{% for title, subtitle, price, img_url, book_id, isAdded in books %} <!-- Breakdown each books item into needed attributes -->
+			<li class="list">
+				<div>
+					<h3>{{ title }}</h3>
+					<p>{{ subtitle }}</p>
+					<p>{{ price }}</p>
+					<!-- Create a hidden form object to send data back to server, with POST method -->
+					<form method="POST">
+						{% csrf_token %}
+						<input type="hidden" name="title" value="{{title}}"/>
+						<input type="hidden" name="subtitle" value="{{subtitle}}"/>
+						<input type="hidden" name="price" value="{{price}}"/>
+						<input type="hidden" name="img_url" value="{{img_url}}"/>
+						<input type="hidden" name="book_id" value="{{book_id}}"/>
+						{% if isAdded %} <!-- Check if book is already in the bookmarks, if so change button text -->
+							<button type="submit">Remove from bookmarks</button>
+							<input type="hidden" name="isAdd" value="remove"/> <!-- Send remove value, to delete object from SQL table -->
+						{% else %}
+							<button type="submit">Add to bookmarks</button>
+							<input type="hidden" name="isAdd" value="add"/> <!-- Send add value, to add object to SQL table -->
+						{% endif %}
+					</form>
+				</div>
+				<img src={{img_url}}>
+			</li>
+      	{% endfor %}
+      	</ul>
+		<!-- Show page numbers -->
+		<a href="/mybookworm/search/{{search_word}}/{% if page > 1 %}{{page|add:-1}}{% endif %}" >{% if page > 1 %} {{page|add:-1}} {% endif %}</a>
+		<a href="/mybookworm/search/{{search_word}}/{{page}}" >{{page}}</a>
+		<a href="/mybookworm/search/{{search_word}}/{%if page <= max_page|add:-1 %}{{page|add:1}}{% endif %}" >{% if page <= max_page|add:-1 %} {{page|add:1}} {% endif %}</a>
     {% else %}
-        <p>search</p>
+        <p>There are no result for this search query.</p>
     {% endif %}
-    <a href="/mybookworm/search/{{search_word}}/{% if page > 1 %}{{page|add:-1}}{% endif %}" >{% if page > 1 %} {{page|add:-1}} {% endif %}</a>
-    <a href="/mybookworm/search/{{search_word}}/{{page}}" >{{page}}</a>
-    <a href="/mybookworm/search/{{search_word}}/{%if page < max_page|add:-1%}{{page|add:1}}{% endif %}" >{% if page < max_page|add:-1 %} {{page|add:1}} {% endif %}</a>
+    
   </body>
 </html>
